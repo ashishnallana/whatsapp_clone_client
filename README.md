@@ -1,5 +1,5 @@
 # Server - repo
-[Server](https://github.com/ashishnallana/whatsapp_clone_server).
+[https://github.com/ashishnallana/whatsapp_clone_server](https://github.com/ashishnallana/whatsapp_clone_server)
 
 # Getting Started with Create React App
 
