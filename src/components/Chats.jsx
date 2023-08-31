@@ -23,6 +23,7 @@ function Chats({ uid }) {
   };
 
   const searchFriends = async (e) => {
+    e.preventDefault();
     try {
       setsearchName(e.target.value);
 
@@ -53,7 +54,8 @@ function Chats({ uid }) {
       <form
         method="get"
         className="flex space-x-5 bg-[#202c33] my-3 mx-5 p-3 rounded-lg text-gray-400 items-center"
-        onSubmit={searchFriends}
+        // onSubmit={searchFriends}
+        onSubmit={(e) => e.preventDefault()}
       >
         <button type="submit">
           <SearchIcon />

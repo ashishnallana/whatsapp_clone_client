@@ -12,7 +12,7 @@ function SearchChat({ isOpen, onClose }) {
   const [messages, setmessages] = useState([]);
 
   const searchMsgs = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     setmsg(e.target.value);
     await fetch(`${process.env.REACT_APP_BASE_URL}/searchMessages`, {
       method: "POST",
@@ -66,6 +66,7 @@ function SearchChat({ isOpen, onClose }) {
               method="get"
               className="flex space-x-5 bg-[#202c33] my-3 mx-5 p-3 rounded-lg text-gray-400 items-center"
               //   onSubmit={searchMsgs}
+              onSubmit={(e) => e.preventDefault()}
             >
               <SearchIcon />
               <input

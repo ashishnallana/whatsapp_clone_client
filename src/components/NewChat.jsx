@@ -13,6 +13,8 @@ function NewChat({ isOpen, onClose }) {
   const [friends, setfriends] = useState([]);
 
   const searchPeople = async (e) => {
+    // e.preventDefault();
+
     try {
       setemail(e.target.value);
 
@@ -82,7 +84,8 @@ function NewChat({ isOpen, onClose }) {
             <form
               method="get"
               className="flex space-x-5 bg-[#202c33] my-3 mx-5 p-3 rounded-lg text-gray-400 items-center"
-              onSubmit={searchPeople}
+              // onSubmit={searchPeople}
+              onSubmit={(e) => e.preventDefault()}
             >
               <button type="submit">
                 <SearchIcon />
