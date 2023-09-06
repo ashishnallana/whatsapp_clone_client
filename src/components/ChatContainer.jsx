@@ -15,7 +15,7 @@ import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import io, { Socket } from "socket.io-client";
 
 // Initialize socket.io-client with the server URL
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect(process.env.REACT_APP_BASE_URL);
 
 function ChatContainer({ setsearchChat, setcontactTab }) {
   const [{ uid, chatId }, dispatch] = useStateValue();
