@@ -12,6 +12,10 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import CircularProgress from "@mui/material/CircularProgress";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
+import io, { Socket } from "socket.io-client";
+
+// Initialize socket.io-client with the server URL
+const socket = io.connect("http://localhost:3001");
 
 function ChatContainer({ setsearchChat, setcontactTab }) {
   const [{ uid, chatId }, dispatch] = useStateValue();
@@ -23,6 +27,20 @@ function ChatContainer({ setsearchChat, setcontactTab }) {
   const fileInputRef = useRef(null);
   const [fileUploadingLoader, setfileUploadingLoader] = useState(false);
   // const [files, setfiles] = useState("")
+
+  useEffect(() => {
+    // Listen for incoming messages
+    socket.on("message_saved", (message) => {
+      console.log("msg received, 🔥🔥🔥, message");
+      // Handle the incoming message, update your state, etc.
+      setmessages((prevMsgs) => [...prevMsgs, message]);
+    });
+
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      socket.off("message_saved");
+    };
+  }, [socket]);
 
   const getUserDetails = async () => {
     try {
@@ -58,27 +76,17 @@ function ChatContainer({ setsearchChat, setcontactTab }) {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    await fetch(`${process.env.REACT_APP_BASE_URL}/sendMessage`, {
-      method: "POST",
-      body: JSON.stringify({
-        content: msg,
-        fromUid: uid,
-        toUid: chatId,
-        filesArray: files,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.message);
-        setmessages((prevMsgs) => [...prevMsgs, data.message]);
-        setmsg("");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    console.log("func called!!");
+    // Emit the message to the server using socket
+    socket.emit("chat_message", {
+      content: msg,
+      fromUid: uid,
+      toUid: chatId,
+      filesArray: files,
+    });
+
+    // Clear the input field after sending
+    setmsg("");
   };
 
   const setMsgsToSeen = async () => {
@@ -290,5 +298,3 @@ function ChatContainer({ setsearchChat, setcontactTab }) {
 }
 
 export default ChatContainer;
-
-// https://cdn-icons-png.flaticon.com/512/149/149071.png
